@@ -23,7 +23,7 @@ This code supports the following utilities described in the paper:
 
 * Separate statistics $g_s(S)$ in (4) and cosine similarity in (8). Tag "meanstd" in the code.
 
-### **IO**$_{corr}$ 
+### **IOcorr** 
 
 * $g_{rit}(S)$:  input-target correlation statistics in (6) and cosine similarity in (8). Tag "" in the code.
 
@@ -40,7 +40,7 @@ This code supports the following utilities described in the paper:
 ### **Gauss**: 
 
 * $Gauss-g_c$: utility (27) using $g_c$ in (7). Tag "" in the code.
-* $Gauss-g_{rc}$: utility (27) using $g_{rc]$ in (7). Tag "" in the code.
+* $Gauss-g_{rc}$: utility (27) using $g_{rc}$ in (7). Tag "" in the code.
 
 
 ## Acknowledgement 
