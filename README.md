@@ -19,7 +19,7 @@ This code supports the following utilities described in the paper:
 ## Utilities:
 
 
-### **$Na¨ive$**
+### **$Na\¨ive$**
 
 Separate statistics gs(S) in (4) and cosine similarity in (8)
 
