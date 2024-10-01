@@ -4,23 +4,26 @@
 
 
 **DV_Shapley.py** -> Main script
+
 **Shapley.py**  -> Class that estimates the Shapley values given the list of permutations and their utilities
+
 **Models.py** ->  Class that computes the model utilities for all combinations among workers
+
 **LC_model** -> Logistic Classifier model class used in the experiments. 
 
 **gen_datasets.py** -> script that generates the different test cases from datasets. **Note: To avoid legal issues, initial datasets are not provided and must be downloaded from their original websites, as indicated in the paper.**
 
+This code supports the following utilities described in the paper:
 
-This code supports the following utilities used in the paper:
 
 ## Utilities:
 
 
-### Naive: 
+### **$Na¨ive$**
 
 Separate statistics gs(S) in (4) and cosine similarity in (8)
 
-### $IO_{corr}$: 
+### **$IO_{corr}$** 
 
 * grit(S):  input-target correlation statistics  in (6) and cosine similarity in (8).
 
