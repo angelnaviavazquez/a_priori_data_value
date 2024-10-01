@@ -19,40 +19,28 @@ This code supports the following utilities described in the paper:
 ## Utilities:
 
 
-### **$Na\¨ive$**
+### $\mathbf{Na\"ive}$
 
-Separate statistics gs(S) in (4) and cosine similarity in (8)
+* Separate statistics $g_s(S)$ in (4) and cosine similarity in (8). Tag "meanstd" in the code.
 
-### **$IO_{corr}$** 
+### $\mathbf{IO_{corr}}$ 
 
-* grit(S):  input-target correlation statistics  in (6) and cosine similarity in (8).
+* $g_{rit}(S)$:  input-target correlation statistics in (6) and cosine similarity in (8). Tag "" in the code.
 
-### Welch: 
+### **Welch**: 
 
-* utility (15) (computed using statistics in (6)).
+* utility (15) computed using statistics in (6). Tag "" in the code.
 
-### Bhattacharyya: 
+### **Bhattacharyya**: 
 
-* utility (20) (using git in (5) (BD-git) 
+* $BD-g_{it}$: utility (20) using $g_{it}$ in (5). Tag "" in the code.b
 
-* or its isotropic approximation grit in (6)) (BD-grit)
+* or its isotropic approximation grit in (6)) (BD-grit). Tag "" in the code.b
 
-### Gauss: 
+### **Gauss**: 
 
-* Gauss-gc: utility (27) using gc in (7).
-* Gauss-grc: utility (27) using grc in (7).
-
-
-* Kmeans
-* Neural networks
-* Support Vector Machine
-* Federated Budget Support Vector Machine
-* Distributed Support Vector Machine
-
-
-## Usage 
-
-
+* $Gauss-g_c$: utility (27) using $g_c$ in (7). Tag "" in the code.
+* $Gauss-g_{rc}$: utility (27) using $g_rc$ in (7). Tag "" in the code.
 
 
 ## Acknowledgement 
