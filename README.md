@@ -35,7 +35,7 @@ This code supports the following utilities described in the paper:
 
 * $BD-g_{it}$: utility (20) using $g_{it}$ in (5). Tag "" in the code.b
 
-* or its isotropic approximation grit in (6)) (BD-grit). Tag "" in the code.b
+* $BD-g_{rit}$: isotropic approximation $g_{rit}$ in (6). Tag "" in the code.b
 
 ### **Gauss**: 
 
