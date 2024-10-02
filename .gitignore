@@ -7,7 +7,7 @@ input_data/
 *.pkl
 
 # results folder
-#results/
+results/
 
 # log files
 *.log
