@@ -32,27 +32,10 @@ for dataset in datasets:
     input_data_path = working_path + 'input_data/'
     output_data_path = input_data_path + dataset + '/'
 
-    ### DELETE THIS
-    '''
-    data_file = input_data_path + dataset + '_demonstrator_data.pkl'
-    print('Loading data from %s...' %  data_file)
-    with open(data_file, 'rb') as f:
-        [Xtr_chunks, ytr_chunks, Xval, yval, Xtst, ytst] = pickle.load(f)
-
-    Xtr = np.vstack(Xtr_chunks)
-    ytr = np.hstack(ytr_chunks)
-
-    data_file = input_data_path + dataset + '_data.pkl'
-    print('Saving data to  %s...' %  data_file)
-    with open(data_file, 'wb') as f:
-        pickle.dump([Xtr, ytr, Xval, yval, Xtst, ytst], f)
-    '''
-
     data_file = input_data_path + dataset + '_data.pkl'
     print('Loading data from %s...' %  data_file)
     with open(data_file, 'rb') as f:
         [Xtr, ytr, Xval, yval, Xtst, ytst] = pickle.load(f)
-
 
     for caso in casos:
         print('Dataset = %s, Caso = %d'%(dataset, caso))
