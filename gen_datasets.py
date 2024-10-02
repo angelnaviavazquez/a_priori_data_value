@@ -11,82 +11,48 @@ Generates the different benchmark cases datasets
 import numpy as np
 import time
 import pickle
+import os
 
 
 seed = 1234
 np.random.seed(seed=seed)
-working_path = './input_data/'
+working_path = './'
 
+casos = [1, 3, 5, 11, 12, 13, 16, 19, 25]
 # Use this to generate a single/new case 
-casos = [11, 23, 24]
-casos = [12]
-casos = [11, 12, 13, 16, 17, 18, 19, 20, 22, 23, 24]
-casos = [25]
-casos = [11, 12, 13, 16, 17, 18, 19, 20, 22, 23, 24, 25]
+casos = [11]
 
-datasets = ['mnist_binclass_norm', 'pima', 'income', 'retinopathy', 'spam', 'cardio', 'w8a', 'news20-500', 'news20-1000', 'news20-2000', 'news20-3000', 'covtypebin', 'ijcnn1', 'phishing']
-datasets = ['news20-1000', 'news20-2000', 'news20-3000']
-datasets = ['covtypebin']
-datasets = ['ijcnn1']
-datasets = ['phishing']
-datasets = ['skin']
-datasets = ['webspam']
-datasets = ['news20']
+datasets = ['mnist_binclass_norm', 'pima', 'income', 'retinopathy', 'spam', 
+'cardio', 'w8a', 'news20-1000', 'news20-2000', 'news20-5000', 'news20-10000', 'covtypebin', 
+'ijcnn1', 'phishing', 'skin']
+# Use this to operate on a single dataset 
+datasets = ['pima']
 
 for dataset in datasets: 
     input_data_path = working_path + 'input_data/'
     output_data_path = input_data_path + dataset + '/'
 
-    if dataset == 'news20': # too big for a single pickle
-        data_file = input_data_path + dataset + '_demonstrator_data_tr.pkl'
-        print('Loading data from %s...' %  data_file)
-        with open(data_file, 'rb') as f:
-            [Xtr_chunks, ytr_chunks] = pickle.load(f)
-        data_file = input_data_path + dataset + '_demonstrator_data_val.pkl'
-        print('Loading data from %s...' %  data_file)
-        with open(data_file, 'rb') as f:
-            [Xval, yval] = pickle.load(f)
-        data_file = input_data_path + dataset + '_demonstrator_data_tst1.pkl'
-        print('Loading data from %s...' %  data_file)
-        with open(data_file, 'rb') as f:
-            [Xtst1, ytst1] = pickle.load(f)
-        data_file = input_data_path + dataset + '_demonstrator_data_tst2.pkl'
-        print('Loading data from %s...' %  data_file)
-        with open(data_file, 'rb') as f:
-            [Xtst2, ytst2] = pickle.load(f)
+    ### DELETE THIS
+    '''
+    data_file = input_data_path + dataset + '_demonstrator_data.pkl'
+    print('Loading data from %s...' %  data_file)
+    with open(data_file, 'rb') as f:
+        [Xtr_chunks, ytr_chunks, Xval, yval, Xtst, ytst] = pickle.load(f)
 
-        Xtst = np.vstack([Xtst1, Xtst2])
-        Xtst = np.array(Xtst)
-        ytst = np.hstack([ytst1, ytst2])
-        ytst = np.array(ytst)
+    Xtr = np.vstack(Xtr_chunks)
+    ytr = np.hstack(ytr_chunks)
 
-        Xval = np.array(Xval)
-        yval = np.array(yval).astype(float)
-        ytst = np.array(ytst).astype(float)
-        
-        Xtr = np.vstack(Xtr_chunks)
-        ytr = np.hstack(ytr_chunks)
-        ytr = np.array(ytr).astype(float)
+    data_file = input_data_path + dataset + '_data.pkl'
+    print('Saving data to  %s...' %  data_file)
+    with open(data_file, 'wb') as f:
+        pickle.dump([Xtr, ytr, Xval, yval, Xtst, ytst], f)
+    '''
 
-        # We reduce the number of features to NF
-        NF = 10000
-        weight = np.sum(Xtr>0, axis=0)
-        ind = np.argsort(-weight)
-        Xtr = Xtr[:, ind[0:NF]]
-        Xval = Xval[:, ind[0:NF]]
-        Xtst = Xtst[:, ind[0:NF]]
+    data_file = input_data_path + dataset + '_data.pkl'
+    print('Loading data from %s...' %  data_file)
+    with open(data_file, 'rb') as f:
+        [Xtr, ytr, Xval, yval, Xtst, ytst] = pickle.load(f)
 
-        dataset = dataset + '-%d'%NF
-        output_data_path = input_data_path + dataset + '/'
-
-    else:            
-        data_file = input_data_path + dataset + '_demonstrator_data.pkl'
-        print('Loading data from %s...' %  data_file)
-        with open(data_file, 'rb') as f:
-            [Xtr_chunks, ytr_chunks, Xval, yval, Xtst, ytst] = pickle.load(f)
-
-        Xtr = np.vstack(Xtr_chunks)
-        ytr = np.hstack(ytr_chunks)
 
     for caso in casos:
         print('Dataset = %s, Caso = %d'%(dataset, caso))
@@ -579,68 +545,13 @@ for dataset in datasets:
                 Xtr_chunks.append(Xtr_)
                 ytr_chunks.append(ytr_)
 
-        if dataset == 'news20-10000':
+        # checking output folders:
+        if not os.path.exists(output_data_path):
+            os.makedirs(output_data_path)
 
-            data_file = output_data_path + 'Caso_%d_paper_apriori_val.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xval, yval], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tst1.pkl' % caso
-            NPtst = Xtst.shape[0]
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtst[0:int(NPtst/2),:], ytst[0:int(NPtst/2)]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tst2.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtst[int(NPtst/2):,:], ytst[int(NPtst/2):]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr1.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[0:3], ytr_chunks[0:3]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr2.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[3], ytr_chunks[3]], f)
-
-            NP = Xtr_chunks[4].shape[0]
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr3a.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[4][0: int(NP/2), :], ytr_chunks[4][0: int(NP/2)]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr3b.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[4][int(NP/2):, :], ytr_chunks[4][int(NP/2):]], f)
-
-        elif dataset == 'webspam':
-            data_file = output_data_path + 'Caso_%d_paper_apriori_val.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xval, yval], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tst.pkl' % caso
-            NPtst = Xtst.shape[0]
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtst, ytst], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr1.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[0:3], ytr_chunks[0:3]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr2.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[3], ytr_chunks[3]], f)
-
-            NP = Xtr_chunks[4].shape[0]
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr3a.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[4][0: int(NP/2), :], ytr_chunks[4][0: int(NP/2)]], f)
-
-            data_file = output_data_path + 'Caso_%d_paper_apriori_tr3b.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks[4][int(NP/2):, :], ytr_chunks[4][int(NP/2):]], f)
-        else:
-            data_file = output_data_path + 'Caso_%d_paper_apriori.pkl' % caso
-            with open(data_file, 'wb') as f:
-                pickle.dump([Xtr_chunks, ytr_chunks, Xval, yval, Xtst, ytst], f)
+        data_file = output_data_path + 'Caso_%d_paper_apriori.pkl' % caso
+        with open(data_file, 'wb') as f:
+            pickle.dump([Xtr_chunks, ytr_chunks, Xval, yval, Xtst, ytst], f)
             
         print('Saved data to %s...' %  data_file)
 

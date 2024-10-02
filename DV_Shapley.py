@@ -7,25 +7,10 @@
 Oct. 2024
 
 
-'ss', Metric_ss
-'rxy_1',   Metric_rxy_1
-
- 'welch_rxy_t2dif', Metric_welch
-
-
- 'BD_rxy_spheric', 'BD_rxy_scalar', 
-
-
- 'Gauss_spheric_paired',  Metric_gauss
-
- 'Gauss_scalar_paired'] Metric_gauss
-
-
-
 '''
 
 import numpy as np
-import time
+import time, os
 import pickle
 from Shapley import Shapley
 from Models import Models
@@ -61,7 +46,8 @@ def sim_cosine(v1, v2):
 # working directory
 working_path = './'
 #####################################################################
-
+type_of_features = 'no_ones'
+brute_force_model = 'LR'
 #####################################################################
 # Choose one or more datasets
 #####################################################################
@@ -69,10 +55,11 @@ datasets = ['mnist_binclass_norm', 'pima', 'income', 'retinopathy', 'spam',
 'cardio', 'w8a', 'news20-1000', 'news20-2000', 'news20-5000', 'news20-10000', 'covtypebin', 
 'ijcnn1', 'phishing', 'skin']
 
+datasets = ['pima']
 
 utilities = ['ss', 'rxy_1', 'welch_rxy_t2dif', 'BD_rxy_spheric', 'BD_rxy_scalar', 'Gauss_spheric_paired',  'Gauss_scalar_paired']
-type_of_features = 'no_ones'
-brute_force_model = 'LR'
+utilities = ['Gauss_scalar_paired']
+
 
 casos = [11] # 5 iid good
 casos = [12] # 5 iid good, diferente tamaño
@@ -89,6 +76,9 @@ casos = [25] # 5 workers iid good, replicating their data x1, x5, x10, x20, x50
 
 casos_paper = [1, 3, 5, 11, 12, 13, 16, 19, 25]
 casos = casos_paper
+
+casos = [11]
+
 classes = [0.0, 1.0]
 
 for ref_dataset in ['val', 'tst']:
@@ -501,15 +491,18 @@ for ref_dataset in ['val', 'tst']:
                 w_ = [str(ww) for ww in which_workers]
                 wnames = '_'.join(w_)
 
+                output_data_path = working_path + 'results/%s/%s/'%(dataset, ref_dataset)
+                # checking output folders:
+                if not os.path.exists(output_data_path):
+                    os.makedirs(output_data_path)
+
                 if utility == 'ACC': # #####  BRUTE FORCE SHAPLEY ############
-                    filename = working_path + 'results/%s/%s/'%(dataset, ref_dataset) + f'Shapley_caso_{caso}_{utility}_{brute_force_model}_workers_{wnames}.pkl'
+                    filename =  output_data_path + f'Shapley_caso_{caso}_{utility}_{brute_force_model}_workers_{wnames}.pkl'
                 else:
-                    filename = working_path + 'results/%s/%s/'%(dataset, ref_dataset) + f'Shapley_caso_{caso}_{utility}_workers_{wnames}.pkl'
+                    filename = output_data_path + f'Shapley_caso_{caso}_{utility}_workers_{wnames}.pkl'
 
                 with open(filename, 'wb') as f:
                     pickle.dump([which_workers, PHIs, DVnorm, models_dict,
                                  training_time, shapley.contribs, AUs], f)
 
                 print('Saved results in %s' % filename)
-                print(DVnorm)
-                print(PHIs)

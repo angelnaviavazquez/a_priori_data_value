@@ -1,5 +1,10 @@
 # "A priori" Data Value estimation
 
+This code implements the research work described in paper: 
+
+**"A Priori" Shapley Data Value Estimation**. A. Navia-Vázquez, J. Cid-Sueiro and M.A. Vázquez. Pattern Analysis and Applications, 2024. (Under review).   
+
+
 ## Content
 
 
